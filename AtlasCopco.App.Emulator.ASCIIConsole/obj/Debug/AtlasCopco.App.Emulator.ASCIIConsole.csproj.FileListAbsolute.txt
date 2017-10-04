@@ -1,0 +1,13 @@
+C:\Data\Stuff\Projects\TrapSweeper\AtlasCopco.App.Emulator.ASCIIConsole\obj\Debug\AtlasCopco.App.Emulator.ASCIIConsole.csprojResolveAssemblyReference.cache
+C:\Data\Stuff\Projects\TrapSweeper\AtlasCopco.App.Emulator.ASCIIConsole\obj\Debug\AtlasCopco.App.Emulator.ASCIIConsole.csproj.CoreCompileInputs.cache
+C:\Data\Stuff\Projects\TrapSweeper\AtlasCopco.App.Emulator.ASCIIConsole\bin\Debug\AtlasCopco.App.Emulator.ASCIIConsole.exe.config
+C:\Data\Stuff\Projects\TrapSweeper\AtlasCopco.App.Emulator.ASCIIConsole\bin\Debug\AtlasCopco.App.Emulator.ASCIIConsole.exe
+C:\Data\Stuff\Projects\TrapSweeper\AtlasCopco.App.Emulator.ASCIIConsole\bin\Debug\AtlasCopco.App.Emulator.ASCIIConsole.pdb
+C:\Data\Stuff\Projects\TrapSweeper\AtlasCopco.App.Emulator.ASCIIConsole\bin\Debug\AtlasCopco.App.Emulator.ASCIIConsole.exe.CodeAnalysisLog.xml
+C:\Data\Stuff\Projects\TrapSweeper\AtlasCopco.App.Emulator.ASCIIConsole\bin\Debug\AtlasCopco.App.Emulator.ASCIIConsole.exe.lastcodeanalysissucceeded
+C:\Data\Stuff\Projects\TrapSweeper\AtlasCopco.App.Emulator.ASCIIConsole\bin\Debug\AtlasCopco.Integration.Maze.dll
+C:\Data\Stuff\Projects\TrapSweeper\AtlasCopco.App.Emulator.ASCIIConsole\bin\Debug\AtlasCopco.Integration.Maze.pdb
+C:\Data\Stuff\Projects\TrapSweeper\AtlasCopco.App.Emulator.ASCIIConsole\obj\Debug\AtlasCopco.App.Emulator.ASCIIConsole.exe
+C:\Data\Stuff\Projects\TrapSweeper\AtlasCopco.App.Emulator.ASCIIConsole\obj\Debug\AtlasCopco.App.Emulator.ASCIIConsole.pdb
+C:\Data\Stuff\Projects\TrapSweeper\AtlasCopco.App.Emulator.ASCIIConsole\bin\Debug\AtlasCopco.App.Emulator.Model.dll
+C:\Data\Stuff\Projects\TrapSweeper\AtlasCopco.App.Emulator.ASCIIConsole\bin\Debug\AtlasCopco.App.Emulator.Model.pdb
