@@ -11,8 +11,8 @@ Maze emulator which supports any Maze Vendor generator implementing IMazeIntegra
 ## Phase 1
 * Full working skeleton for navigating through mazes till hunter dies or find the treasure.
 * Testing coverage of emulator exit points
-** Find a Treasure
-** Die from Traps
+  * Find a Treasure
+  * Die from Traps
 
 ## Phase 2
 * Store visited rooms in Set DS and color edges as red when drawing the room
