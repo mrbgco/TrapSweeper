@@ -11,6 +11,7 @@ namespace AtlasCopco.App.Emulator.ASCIIConsole.Test
         [TestMethod]
         public void EmulateMaze_RoomHasTreasure_ReturnsTreasureFound()
         {
+            // Arrange
             var hunter = new Hunter
             {
                 HealthPoint = 2, 
@@ -22,11 +23,13 @@ namespace AtlasCopco.App.Emulator.ASCIIConsole.Test
             mock.Setup(foo => foo.BuildMaze(It.IsAny<int>())).Verifiable();
             mock.Setup(foo => foo.GetEntranceRoom()).Returns(1);
             mock.Setup(foo => foo.HasTreasure(It.IsAny<int>())).Returns(true);
-
             var testEmulator = new Console.ASCIIConsole(mock.Object);
+            
+            // Act
             testEmulator.NewGame(true);
             var result = testEmulator.StartNavigation(hunter);
-
+            
+            // Assert
             mock.Verify(foo => foo.BuildMaze(It.IsAny<int>()));
             Assert.AreEqual(MazeResult.TreasureFound, result);
         }
@@ -34,6 +37,7 @@ namespace AtlasCopco.App.Emulator.ASCIIConsole.Test
         [TestMethod]
         public void EmulateMaze_RoomHasTrap_ReturnsHunterDied()
         {
+            // Arrange
             var hunter = new Hunter
             {
                 HealthPoint = 1, 
@@ -46,11 +50,13 @@ namespace AtlasCopco.App.Emulator.ASCIIConsole.Test
             mock.Setup(foo => foo.GetEntranceRoom()).Returns(1);
             mock.Setup(foo => foo.HasTreasure(It.IsAny<int>())).Returns(false);
             mock.Setup(foo => foo.CausesInjury(It.IsAny<int>())).Returns(true);
-
             var testEmulator = new Console.ASCIIConsole(mock.Object);
+            
+            // Act
             testEmulator.NewGame(true);
             var result = testEmulator.StartNavigation(hunter);
-
+            
+            // Assert
             mock.Verify(foo => foo.BuildMaze(It.IsAny<int>()));
             Assert.AreEqual(MazeResult.HunterDied, result);
         }
