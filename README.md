@@ -3,8 +3,10 @@ Maze emulator which supports any Maze Vendor generator implementing IMazeIntegra
 
 ## Technology
 * .NET C#
-* Reflection to Load vendors generators
+* AutoFac to load IMazeIntegration modules
 * Moq framework for unit testing mocking
+* Resharper
+* Visual Studio Static Analysis
 
 ## Phase 1
 * Full working skeleton for navigating through mazes till hunter dies or find the treasure.
@@ -15,5 +17,4 @@ Maze emulator which supports any Maze Vendor generator implementing IMazeIntegra
 ## Phase 2
 * Store visited rooms in Set DS and color edges as red when drawing the room
 * Add a generator to be able to fully test the emulator
-* Use IoC
 * More testing coverage 
