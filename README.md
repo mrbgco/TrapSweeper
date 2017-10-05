@@ -18,3 +18,5 @@ Maze emulator which supports any Maze Vendor generator implementing IMazeIntegra
 * Store visited rooms in Set DS and color edges as red when drawing the room
 * Add a generator to be able to fully test the emulator
 * More testing coverage 
+* Add logging using any logging framework like NLog
+* Refactor the TODO points
