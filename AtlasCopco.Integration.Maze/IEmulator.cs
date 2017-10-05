@@ -8,6 +8,11 @@ namespace AtlasCopco.Integration.Maze
     public interface IEmulator
     {
         /// <summary>
+        /// Main method to run the emulator
+        /// </summary>
+        void EmulateMain();
+
+        /// <summary>
         /// Initialize emulator by preparing and displaying information
         /// </summary>
         void Initialize();

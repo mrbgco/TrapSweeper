@@ -13,9 +13,9 @@ namespace AtlasCopco.App.Emulator.ASCIIConsole.Test
         {
             var hunter = new Hunter
             {
-                HealthPoint = 2, // Read from config
+                HealthPoint = 2, 
                 StepsCount = 0,
-                Name = "X" // Get from input somewhere
+                Name = "X" 
             };
 
             var mock = new Mock<IMazeIntegration>();

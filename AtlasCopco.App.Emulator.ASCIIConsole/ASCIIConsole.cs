@@ -20,6 +20,44 @@ namespace AtlasCopco.App.Emulator.Console
 
         #region IEmulator Implementation
 
+        public void EmulateMain()
+        {
+            Initialize();
+
+            var hunter = new Hunter
+            {
+                HealthPoint = 2, //TODO Read from config
+                StepsCount = 0,
+                Name = "X" //TODO Get from input somewhere
+            };
+
+            while (!System.Console.KeyAvailable)
+            {
+                // Load dll dynamically
+                // Temporarily use a dummy object to draw the skeleton
+                // IMazeIntegration mazeGenerator;
+
+                var menuChoice = System.Console.ReadKey(true).Key;
+
+                switch (menuChoice)
+                {
+                    case ConsoleKey.D1:
+                        NewGame();
+                        StartNavigation(hunter);
+                        break;
+                    case ConsoleKey.D2:
+                        NewGame(true);
+                        StartNavigation(hunter);
+                        break;
+                    default:
+                        System.Console.WriteLine("Not a valid choice!");
+                        continue;
+                }
+
+                ShowMenu();
+            }
+        }
+
         public void Initialize()
         {
             System.Console.Clear();
@@ -62,7 +100,7 @@ namespace AtlasCopco.App.Emulator.Console
             catch (Exception e)
             {
                 System.Console.WriteLine("Maze metadata is wrong, no entrance room was found!");
-                // log e
+                //TODO log e using NLog or whatever
                 System.Console.ReadLine();
                 Environment.Exit(0);
             }
@@ -77,6 +115,8 @@ namespace AtlasCopco.App.Emulator.Console
         {
             while (true)
             {
+                System.Console.Clear();
+
                 hunter.StepsCount++;
 
                 // Check if treasure found
@@ -86,6 +126,7 @@ namespace AtlasCopco.App.Emulator.Console
                     return MazeResult.TreasureFound;
                 }
 
+                // Check if room has a trap
                 if (_mazeGenerator.CausesInjury(roomId))
                 {
                     if (hunter.HealthPoint <= 1)
@@ -99,66 +140,69 @@ namespace AtlasCopco.App.Emulator.Console
                     hunter.HealthPoint--;
                 }
 
+                // Display some information
                 DisplayRoomInformation(roomId);
                 DisplayHunterStatus(hunter);
 
-                var northRoom = _mazeGenerator.GetRoom(roomId, 'N');
-                var canGoNorth = northRoom != null;
+                // Draw a static room
+                var roomProperties = GetRoomProperties(roomId);
+                DrawRoom(roomProperties.CanGoNorth, roomProperties.CanGoSouth, roomProperties.CanGoWest, roomProperties.CanGoEast);
 
-                var southRoom = _mazeGenerator.GetRoom(roomId, 'S');
-                var canGoSouth = southRoom != null;
-
-                var westRoom = _mazeGenerator.GetRoom(roomId, 'W');
-                var canGoWest = westRoom != null;
-
-                var eastRoom = _mazeGenerator.GetRoom(roomId, 'E');
-                var canGoEast = eastRoom != null;
-
-                DrawRoom(canGoNorth, canGoSouth, canGoWest, canGoEast);
-
+                // Allow hunter to move
+                //TODO Refactor this?
                 System.Console.WriteLine("Choose your destiny..");
                 var menuChoice = System.Console.ReadKey(true).Key;
                 switch (menuChoice)
                 {
                     case ConsoleKey.UpArrow:
-                        if (canGoNorth)
+                        if (roomProperties.CanGoNorth)
                         {
                             System.Console.WriteLine("Going North!");
-                            roomId = (int)northRoom;
-                            continue;
+                            roomId = (int)roomProperties.NorthRoom;
                         }
-                        break;
+                        else
+                        {
+                            System.Console.WriteLine("No Way! The treasure is important, come on!");
+                        }
+                        continue;
                     case ConsoleKey.DownArrow:
-                        if (canGoSouth)
+                        if (roomProperties.CanGoSouth)
                         {
                             System.Console.WriteLine("Going South!");
-                            roomId = (int)southRoom;
-                            continue;
+                            roomId = (int)roomProperties.SouthRoom;
                         }
-                        break;
+                        else
+                        {
+                            System.Console.WriteLine("No Way! The treasure is important, come on!");
+                        }
+                        continue;
                     case ConsoleKey.LeftArrow:
-                        if (canGoWest)
+                        if (roomProperties.CanGoWest)
                         {
                             System.Console.WriteLine("Going West!");
-                            roomId = (int)westRoom;
-                            continue;
+                            roomId = (int)roomProperties.WestRoom;
                         }
-                        break;
+                        else
+                        {
+                            System.Console.WriteLine("No Way! The treasure is important, come on!");
+                        }
+                        continue;
                     case ConsoleKey.RightArrow:
-                        if (canGoEast)
+                        if (roomProperties.CanGoEast)
                         {
                             System.Console.WriteLine("Going East!");
-                            roomId = (int)eastRoom;
-                            continue;
+                            roomId = (int)roomProperties.EastRoom;
                         }
-                        break;
+                        else
+                        {
+                            System.Console.WriteLine("No Way! The treasure is important, come on!");
+                        }
+                        continue;
                     default:
-                        System.Console.WriteLine("The treasure is important, come on!");
+                        System.Console.WriteLine("Invalid direction. The treasure is important, come on!");
                         continue;
                 }
-                break;
             }
-            return MazeResult.Unknown;
         }
 
         public void Celebrate(Hunter hunter)
@@ -185,11 +229,13 @@ namespace AtlasCopco.App.Emulator.Console
             {
                 var roomDescription = _mazeGenerator.GetDescription(roomId);
                 System.Console.WriteLine("Room is {0}", roomDescription);
+                System.Console.WriteLine();
+                System.Console.WriteLine();
             }
             catch (Exception e)
             {
                 System.Console.WriteLine("Maze metadata is wrong, room description wasn't found!");
-                // log e
+                //TODO log e using NLog or whatever
                 System.Console.ReadLine();
                 Environment.Exit(0);
             }
@@ -203,11 +249,14 @@ namespace AtlasCopco.App.Emulator.Console
             }
 
             System.Console.WriteLine("Player:{0}     HP:{1}      Steps:{2}", hunter.Name, hunter.HealthPoint, hunter.StepsCount);
+            System.Console.WriteLine();
+            System.Console.WriteLine();
         }
 
         public void DrawRoom(bool canGoNorth, bool canGoSouth, bool canGoWest, bool canGoEast)
         {
-            SquareDrawer.DrawBox(5, 5, canGoNorth, canGoSouth, canGoWest, canGoEast);
+            //TODO Read size from Config?
+            RoomDrawer.DrawBox(19, 19, canGoNorth, canGoSouth, canGoWest, canGoEast);
         }
 
         public void NewGame(bool isRandom = false)
@@ -241,13 +290,15 @@ namespace AtlasCopco.App.Emulator.Console
             catch (Exception e)
             {
                 System.Console.WriteLine("Maze generation failed, check log file for details");
-                // log e
+                //TODO log e using NLog or whatever
                 System.Console.ReadLine();
                 Environment.Exit(0);
             }
         }
 
         #endregion
+
+        #region Private helper methods
 
         private static int GetRandomMazeSize()
         {
@@ -267,5 +318,19 @@ namespace AtlasCopco.App.Emulator.Console
                 System.Console.Beep(randomSounds.Next(1000) + 100, 100);
             }
         }
+
+        private RoomProperties GetRoomProperties(int roomId)
+        {
+            var roomProperties = new RoomProperties
+            {
+                NorthRoom = _mazeGenerator.GetRoom(roomId, 'N'),
+                SouthRoom = _mazeGenerator.GetRoom(roomId, 'S'),
+                WestRoom = _mazeGenerator.GetRoom(roomId, 'W'),
+                EastRoom = _mazeGenerator.GetRoom(roomId, 'E')
+            };
+            return roomProperties;
+        }
+
+        #endregion
     }
 }

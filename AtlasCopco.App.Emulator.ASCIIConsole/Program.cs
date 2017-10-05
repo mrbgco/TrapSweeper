@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
-using AtlasCopco.App.Emulator.Model;
 using AtlasCopco.Integration.Maze;
+using Autofac;
 
 namespace AtlasCopco.App.Emulator.Console
 {
@@ -9,10 +9,11 @@ namespace AtlasCopco.App.Emulator.Console
     {
         private static void Main()
         {
-            // Thread to get Escape charachter pressing to exit
-            var closeConsole = new Thread(Emulate);
+            // Thread to get (Escape) to exit application at anytime
+            var closeConsole = new Thread(StartEmulator);
             closeConsole.SetApartmentState(ApartmentState.STA);
             closeConsole.Start();
+
             while (System.Console.ReadKey(true).Key != ConsoleKey.Escape)
             {
                 // do nothing until escape
@@ -21,43 +22,14 @@ namespace AtlasCopco.App.Emulator.Console
             Environment.Exit(0);
         }
 
-        private static void Emulate()
+        private static void StartEmulator()
         {
-            IEmulator consolerEmulator = new ASCIIConsole();
-            consolerEmulator.Initialize();
-
-
-            var hunter = new Hunter
+            // Autofac
+            var container = ContainerConfig.Configure();
+            using (var scope = container.BeginLifetimeScope())
             {
-                HealthPoint = 2, // Read from config
-                StepsCount = 0,
-                Name = "X" // Get from input somewhere
-            };
-
-            while (!System.Console.KeyAvailable)
-            {
-                // Load dll dynamically
-                // Temporarily use a dummy object to draw the skeleton
-                // IMazeIntegration mazeGenerator;
-
-                var menuChoice = System.Console.ReadKey(true).Key;
-
-                switch (menuChoice)
-                {
-                    case ConsoleKey.D1:
-                        consolerEmulator.NewGame();
-                        consolerEmulator.StartNavigation(hunter);
-                        break;
-                    case ConsoleKey.D2:
-                        consolerEmulator.NewGame(true);
-                        consolerEmulator.StartNavigation(hunter);
-                        break;
-                    default:
-                        System.Console.WriteLine("Not a valid choice!");
-                        continue;
-                }
-
-                consolerEmulator.ShowMenu();
+                var consolerEmulator = scope.Resolve<IEmulator>();
+                consolerEmulator.EmulateMain();
             }
         }
     }
