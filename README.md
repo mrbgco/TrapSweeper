@@ -15,8 +15,9 @@ Maze emulator which supports any Maze Vendor generator implementing IMazeIntegra
   * Die from Traps
 
 ## Phase 2
-* Store visited rooms in Set DS and color edges as red when drawing the room
-* Add a generator to be able to fully test the emulator
-* More testing coverage 
-* Add logging using any logging framework like NLog
+* Store visited rooms in Set DS and color edges as red when drawing the room. 
+* Add a generator to be able to fully test the emulator. 
+* Consume REST services as vendor maze generators for more flexibility. 
+* More testing coverage.  
+* Add logging using any logging framework like NLog. 
 * Refactor the TODO points
